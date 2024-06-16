@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build: .
+    container_name: bank-simulation-app
+    ports:
+      - "5000:5000"
+    environment:
+      - MONmongodb+srv://JuTeLabsBank:o5AV672Te0472qj2@mybankapp.eajnfew.mongodb.net/myBankAppDB?retryWrites=true&w=majority&appName=myBankApp
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
