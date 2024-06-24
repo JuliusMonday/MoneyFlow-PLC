@@ -67,6 +67,34 @@ const getAccount = async (req, res) => {
     res.json(account);
 };
 
+// Function to check balance by account ID
+const checkBalanceById = async (accountId) => {
+    try {
+        const account = await Account.findById(accountId);
+        if (!account) {
+            return { success: false, message: 'Account not found' };
+        }
+        return { success: true, balance: account.balance };
+    } catch (error) {
+        return { success: false, message: 'Error retrieving balance', error };
+    }
+};
+
+// Function to check balance by account number
+const checkBalanceByNumber = async () => {
+    const 
+    try {
+        const account = await Account.findOne({ accountNumber });
+        if (!account) {
+            return { success: false, message: 'Account not found' };
+        }
+        return { success: true, balance: account.balance };
+    } catch (error) {
+        return { success: false, message: 'Error retrieving balance', error };
+    }
+};
+
+
 const deleteAccount = async (req, res) => {
     const account = await Account.findByIdAndDelete(req.params.id);
     if (!account) return res.status(404).json({ message: 'Account not found' });
@@ -164,5 +192,7 @@ module.exports = {
     getAccountTransactions,
     withdraw,
     deposit,
-    transfer
+    transfer,
+    checkBalanceById,
+    checkBalanceByNumber
 };
